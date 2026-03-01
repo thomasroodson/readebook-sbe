@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { HydrationFixScript } from '@/components/HydrationFix'
 import { GlobalStyles } from '@/styles/GlobalStyles'
 
 export const metadata: Metadata = {
@@ -12,8 +13,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-BR">
-      <body>
+    <html lang="pt-BR" suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <HydrationFixScript />
         <GlobalStyles />
         {children}
       </body>
