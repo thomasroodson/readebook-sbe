@@ -1,43 +1,49 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import {
+  Home,
+  LayoutGrid,
+  Library,
+  Download,
+  Headphones,
+  Heart,
+  Settings,
+  HelpCircle,
+  LogOut,
+} from 'lucide-react'
+import { IconProvider, AppIcon } from '@/contexts/IconContext'
 import { Sidebar } from './Sidebar'
-
-const IconPlaceholder = ({ children }: { children: string }) => (
-  <span aria-hidden style={{ width: '1.25rem', textAlign: 'center' }}>
-    {children}
-  </span>
-)
 
 const defaultItems = [
   {
     label: 'Discover',
     href: '/',
     isActive: true,
-    icon: <IconPlaceholder>⌂</IconPlaceholder>,
+    icon: <AppIcon icon={Home} />,
   },
   {
     label: 'Category',
     href: '/category',
-    icon: <IconPlaceholder>⊞</IconPlaceholder>,
+    icon: <AppIcon icon={LayoutGrid} />,
   },
   {
     label: 'My Library',
     href: '/library',
-    icon: <IconPlaceholder>📚</IconPlaceholder>,
+    icon: <AppIcon icon={Library} />,
   },
   {
     label: 'Download',
     href: '/download',
-    icon: <IconPlaceholder>↓</IconPlaceholder>,
+    icon: <AppIcon icon={Download} />,
   },
   {
     label: 'Audio Books',
     href: '/audio',
-    icon: <IconPlaceholder>🎧</IconPlaceholder>,
+    icon: <AppIcon icon={Headphones} />,
   },
   {
     label: 'Favourite',
     href: '/favourite',
-    icon: <IconPlaceholder>♥</IconPlaceholder>,
+    icon: <AppIcon icon={Heart} />,
   },
 ]
 
@@ -45,20 +51,27 @@ const defaultBottomItems = [
   {
     label: 'Settings',
     href: '/settings',
-    icon: <IconPlaceholder>⚙</IconPlaceholder>,
+    icon: <AppIcon icon={Settings} />,
   },
   {
     label: 'Support',
     href: '/support',
-    icon: <IconPlaceholder>?</IconPlaceholder>,
+    icon: <AppIcon icon={HelpCircle} />,
   },
-  { label: 'Logout', icon: <IconPlaceholder>⎋</IconPlaceholder> },
+  { label: 'Logout', icon: <AppIcon icon={LogOut} /> },
 ]
 
 const meta: Meta<typeof Sidebar> = {
   title: 'Components/Sidebar',
   component: Sidebar,
   tags: ['autodocs'],
+  decorators: [
+    (Story) => (
+      <IconProvider>
+        <Story />
+      </IconProvider>
+    ),
+  ],
   argTypes: {
     logo: {
       description: 'Conteúdo do logo (ReactNode)',
@@ -76,14 +89,16 @@ export default meta
 
 type Story = StoryObj<typeof Sidebar>
 
+const logoContent = (
+  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+    <Home size={20} aria-hidden />
+    <strong>BookBase</strong>
+  </div>
+)
+
 export const Default: Story = {
   args: {
-    logo: (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-        <span style={{ fontSize: '1.25rem' }}>⌂</span>
-        <strong>BookBase</strong>
-      </div>
-    ),
+    logo: logoContent,
     items: defaultItems,
     bottomItems: defaultBottomItems,
   },
@@ -91,12 +106,7 @@ export const Default: Story = {
 
 export const WithActiveItem: Story = {
   args: {
-    logo: (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-        <span style={{ fontSize: '1.25rem' }}>⌂</span>
-        <strong>BookBase</strong>
-      </div>
-    ),
+    logo: logoContent,
     items: defaultItems.map((item) => ({
       ...item,
       isActive: item.label === 'My Library',
@@ -108,7 +118,7 @@ export const WithActiveItem: Story = {
 export const WithBottomItems: Story = {
   args: {
     items: [
-      { label: 'Discover', href: '/', icon: <IconPlaceholder>⌂</IconPlaceholder> },
+      { label: 'Discover', href: '/', icon: <AppIcon icon={Home} /> },
     ],
     bottomItems: [
       { label: 'Settings', href: '/settings' },

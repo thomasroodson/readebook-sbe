@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { HydrationFixScript } from '@/components/HydrationFix'
+import { IconProvider } from '@/contexts/IconContext'
 import { GlobalStyles } from '@/styles/GlobalStyles'
 
 export const metadata: Metadata = {
@@ -17,7 +18,9 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <HydrationFixScript />
         <GlobalStyles />
-        {children}
+        <IconProvider>
+          {children}
+        </IconProvider>
       </body>
     </html>
   )
