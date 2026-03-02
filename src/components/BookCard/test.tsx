@@ -44,4 +44,20 @@ describe('BookCard', () => {
     expect(screen.queryByRole('link')).not.toBeInTheDocument()
     expect(screen.getByText('Clean Code').closest('div')).toBeInTheDocument()
   })
+
+  it('does not render progress bar when progress is not provided', () => {
+    render(<BookCard {...defaultProps} />)
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+  })
+
+  it('renders progress bar with correct accessibility when progress is provided', () => {
+    render(<BookCard {...defaultProps} progress={65} />)
+    const progressbar = screen.getByRole('progressbar', {
+      name: /progresso de leitura: 65%/i,
+    })
+    expect(progressbar).toBeInTheDocument()
+    expect(progressbar).toHaveAttribute('aria-valuenow', '65')
+    expect(progressbar).toHaveAttribute('aria-valuemin', '0')
+    expect(progressbar).toHaveAttribute('aria-valuemax', '100')
+  })
 })

@@ -39,15 +39,16 @@ export const Description = styled.p`
 `
 
 export const CoverWrapper = styled.div`
-  width: 100%;
+  width: 12rem;
+  height: 18rem;
+  margin: 0 auto;
   margin-bottom: ${theme.spacing[1]};
-  border-radius: ${radius.card};
+  //border-radius: ${radius.card};
   overflow: hidden;
   background: ${theme.colors.gray[200]};
-  height: ${bookCover.heightDesktop};
 
   @media (max-width: ${breakpointMobile}) {
-    height: ${bookCover.heightMobile};
+    height: 16rem;
   }
 `
 

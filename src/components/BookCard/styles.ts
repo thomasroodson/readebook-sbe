@@ -48,6 +48,48 @@ export const CoverImage = styled.img`
   display: block;
 `
 
+export const ProgressWrapper = styled.div`
+  width: 100%;
+  padding: 0 ${theme.spacing[0.5]};
+  padding-top: ${theme.spacing[0.5]};
+  box-sizing: border-box;
+`
+
+export const ProgressBarRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing[0.5]};
+  min-width: 0;
+`
+
+export const ProgressTrack = styled.div`
+  flex: 1;
+  min-width: 0;
+  height: 4px;
+  border-radius: ${theme.layout.radius.pill};
+  background: ${theme.colors.gray[200]};
+  overflow: hidden;
+`
+
+export const ProgressFill = styled.div<{ $progress: number }>`
+  height: 100%;
+  width: ${(p) => Math.min(100, Math.max(0, p.$progress))}%;
+  border-radius: ${theme.layout.radius.pill};
+  background: ${theme.colors.primary[500]};
+  transition: width 0.2s ease;
+`
+
+export const ProgressLabel = styled.span`
+  flex-shrink: 0;
+  font-family: ${theme.typography.fontFamily};
+  font-size: ${theme.typography.caption.size};
+  font-weight: 600;
+  color: ${theme.colors.gray[600]};
+  display: inline-flex;
+  align-items: center;
+  gap: ${theme.spacing[0.25]};
+`
+
 export const Info = styled.div`
   padding: ${theme.spacing[0.75]} ${theme.spacing[0.5]} ${theme.spacing[0.5]};
   min-width: 0;

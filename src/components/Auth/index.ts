@@ -1,0 +1,5 @@
+export { Login, type LoginProps } from '@/components/Login'
+export { RecoverPassword, type RecoverPasswordProps } from '@/components/RecoverPassword'
+export { ResetPassword, type ResetPasswordProps } from '@/components/ResetPassword'
+export { UpdatePassword, type UpdatePasswordProps } from '@/components/UpdatePassword'
+export { SignUp, type SignUpProps } from '@/components/SignUp'
