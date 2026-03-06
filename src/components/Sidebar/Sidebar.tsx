@@ -14,16 +14,22 @@ export type SidebarProps = {
   logo?: ReactNode
   items: SidebarNavItem[]
   bottomItems?: SidebarNavItem[]
+  isOpen?: boolean
+  onClose?: () => void
 } & React.HTMLAttributes<HTMLElement>
 
 export function Sidebar({
   logo,
   items,
   bottomItems,
+  isOpen = true,
+  onClose,
   ...rest
 }: SidebarProps) {
   return (
-    <S.Wrapper aria-label="Navegação principal" {...rest}>
+    <>
+      {isOpen && <S.Overlay onClick={onClose} />}
+      <S.Wrapper aria-label="Navegação principal" $isOpen={isOpen} {...rest}>
       {logo != null && <S.LogoContainer>{logo}</S.LogoContainer>}
       <S.NavList>
         {items.map((item) => (
@@ -61,5 +67,6 @@ export function Sidebar({
         </>
       )}
     </S.Wrapper>
+    </>
   )
 }

@@ -3,16 +3,51 @@
 import styled from 'styled-components'
 import { theme } from '@/styles/theme'
 
-const { sidebarWidth, navItemHeight, navItemPadding, navItemGap, radius } =
+const { sidebarWidth, navItemHeight, navItemPadding, navItemGap, radius, breakpointMobile } =
   theme.layout
 
-export const Wrapper = styled.nav`
+export const Overlay = styled.div`
+  display: none;
+
+  @media (max-width: ${breakpointMobile}) {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+  }
+
+  @media (min-width: calc(${breakpointMobile} + 0.01rem)) {
+    display: none !important;
+  }
+`
+
+export const Wrapper = styled.nav<{ $isOpen?: boolean }>`
   width: ${sidebarWidth};
   padding: ${theme.spacing[1.5]};
   background: ${theme.colors.background.card};
   border-right: 1px solid ${theme.colors.gray[200]};
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 999;
+
+  @media (max-width: ${breakpointMobile}) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    transform: translateX(${({ $isOpen }) => ($isOpen ? '0' : '-100%')});
+    transition: transform 0.3s ease-in-out;
+    z-index: 999;
+  }
+
+  @media (min-width: calc(${breakpointMobile} + 0.01rem)) {
+    transform: translateX(0) !important;
+  }
 `
 
 export const LogoContainer = styled.div`

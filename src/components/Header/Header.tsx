@@ -1,6 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
+import { Menu } from 'lucide-react'
 import { Search } from '@/components/Search'
 import { Profile } from '@/components/Profile'
 import * as S from './styles'
@@ -29,6 +30,8 @@ export type HeaderProps = {
   searchSlot?: ReactNode
   /** Substitui o Profile por conteúdo customizado */
   profileSlot?: ReactNode
+  /** Callback quando o botão hamburger é clicado (apenas mobile) */
+  onMenuToggle?: () => void
 } & React.HTMLAttributes<HTMLElement>
 
 export function Header({
@@ -36,10 +39,16 @@ export function Header({
   profileProps,
   searchSlot,
   profileSlot,
+  onMenuToggle,
   ...rest
 }: HeaderProps) {
   return (
     <S.Wrapper role="banner" {...rest}>
+      {onMenuToggle && (
+        <S.MenuButton onClick={onMenuToggle} aria-label="Abrir menu">
+          <Menu size={24} />
+        </S.MenuButton>
+      )}
       <S.SearchSlot>
         {searchSlot !== undefined ? (
           searchSlot

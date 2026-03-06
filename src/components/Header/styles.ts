@@ -23,6 +23,26 @@ export const Wrapper = styled.header`
   }
 `
 
+export const MenuButton = styled.button`
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: ${theme.spacing[0.5]};
+  color: ${theme.colors.gray[700]};
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${theme.colors.gray[900]};
+  }
+
+  @media (max-width: ${breakpointMobile}) {
+    display: flex;
+  }
+`
+
 export const SearchSlot = styled.div`
   flex: 1;
   min-width: 0;

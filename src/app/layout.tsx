@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
+import './globals.css'
 import { HydrationFixScript } from '@/components/HydrationFix'
 import { IconProvider } from '@/contexts/IconContext'
 import { UserProvider } from '@/contexts/UserContext'
 import { GlobalStyles } from '@/styles/GlobalStyles'
+import StyledComponentsRegistry from './lib/styled-registry'
 
 export const metadata: Metadata = {
   title: 'Next.js Boilerplate',
@@ -17,13 +19,15 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <HydrationFixScript />
-        <GlobalStyles />
-        <IconProvider>
-          <UserProvider>
-            {children}
-          </UserProvider>
-        </IconProvider>
+        <StyledComponentsRegistry>
+          <HydrationFixScript />
+          <GlobalStyles />
+          <IconProvider>
+            <UserProvider>
+              {children}
+            </UserProvider>
+          </IconProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   )
