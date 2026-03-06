@@ -2,6 +2,8 @@
 
 SaaS de dashboard de leitura (livros, categorias, progresso). Interface limpa e minimalista, com design system definido, TypeScript em modo strict, testes com Jest e documentação em Storybook.
 
+![BookBase - Minha biblioteca](public/screencapture.png)
+
 ## Stack
 
 - **Next.js 15** (App Router)
@@ -33,20 +35,37 @@ SaaS de dashboard de leitura (livros, categorias, progresso). Interface limpa e 
 
 ```
 src/
-├── app/                    # App Router (layout, page, not-found)
-├── components/              # Componentes reutilizáveis
-│   ├── BookCard/           # Card de livro (capa, título, autor)
-│   │   ├── BookCard.tsx
-│   │   ├── styles.ts
-│   │   ├── index.ts
-│   │   ├── test.tsx
-│   │   └── stories.tsx
+├── app/                        # App Router
+│   ├── book/[id]/              # Página de leitura do livro
+│   ├── lib/                    # Utilitários (styled-registry)
+│   ├── minha-biblioteca/       # Página e view da biblioteca
+│   ├── LoggedInView/           # Layout da área logada
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── not-found.tsx
+│   ├── page.tsx
+│   └── LoginPage.tsx
+├── components/                 # Componentes reutilizáveis
+│   ├── Aside/
+│   ├── Auth/
+│   ├── BookCard/
 │   ├── Button/
+│   ├── Header/
+│   ├── HydrationFix.tsx
+│   ├── Input/
+│   ├── Login/
+│   ├── Profile/
+│   ├── RecoverPassword/
+│   ├── ResetPassword/
+│   ├── Search/
 │   ├── Sidebar/
-│   └── HydrationFix.tsx
-└── styles/
-    ├── GlobalStyles.tsx     # Reset e estilos globais
-    └── theme.ts            # Design tokens (cores, espaçamento, tipografia, layout)
+│   ├── SignUp/
+│   ├── Skeleton/               # Skeletons (Aside, BookCard, Header, Sidebar)
+│   └── UpdatePassword/
+├── contexts/                   # React Context (Icon, User)
+├── mocks/                      # Dados mock (loggedUser)
+├── styles/                     # GlobalStyles, theme
+└── types/                      # Tipos (user)
 ```
 
 Cada componente segue o padrão: pasta com `ComponentName.tsx`, `styles.ts` (styled-components com `import * as S from './styles'`), `index.ts` (barrel), `test.tsx` e `stories.tsx`. Os estilos usam tokens de `@/styles/theme`.

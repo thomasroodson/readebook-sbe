@@ -7,8 +7,8 @@ import { GlobalStyles } from '@/styles/GlobalStyles'
 import StyledComponentsRegistry from './lib/styled-registry'
 
 export const metadata: Metadata = {
-  title: 'Next.js Boilerplate',
-  description: 'Boilerplate Next.js com App Router, TypeScript e styled-components',
+  title: 'Dashboard SBE Shop',
+  description: 'Reading Ebooks SBE',
 }
 
 export default function RootLayout({
