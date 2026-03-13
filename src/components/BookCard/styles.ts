@@ -55,6 +55,14 @@ export const ProgressWrapper = styled.div`
   box-sizing: border-box;
 `
 
+export const ProgressHeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: ${theme.spacing[0.5]};
+  margin-bottom: ${theme.spacing[0.25]};
+`
+
 export const ProgressBarRow = styled.div`
   display: flex;
   align-items: center;
@@ -88,6 +96,12 @@ export const ProgressLabel = styled.span`
   display: inline-flex;
   align-items: center;
   gap: ${theme.spacing[0.25]};
+`
+
+export const ProgressPages = styled.span`
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: ${theme.colors.gray[500]};
 `
 
 export const Info = styled.div`

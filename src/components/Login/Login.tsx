@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, type FormEvent } from 'react'
+import { Mail, Lock, ArrowRight } from 'lucide-react'
 import { Input } from '@/components/Input'
-import { Button } from '@/components/Button'
 import * as S from './styles'
 
 export type LoginProps = {
@@ -51,37 +51,61 @@ export function Login({
   return (
     <S.Wrapper>
       <S.Card>
-        <S.Title>{title}</S.Title>
-        <S.Form onSubmit={handleSubmit} noValidate>
-          <Input
-            type="email"
-            name="email"
-            label="E-mail"
-            placeholder="seu@email.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
-            disabled={loading}
-          />
-          <Input
-            type="password"
-            name="password"
-            label="Senha"
-            placeholder="••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-            disabled={loading}
-          />
-          {error && <S.ErrorMessage role="alert">{error}</S.ErrorMessage>}
-          <Button type="submit" disabled={loading}>
-            {loading ? 'Entrando...' : submitLabel}
-          </Button>
-        </S.Form>
-        <S.Links>
-          <S.Link href={recoverPasswordHref}>{recoverPasswordLabel}</S.Link>
-          <S.Link href={signUpHref}>{signUpLabel}</S.Link>
-        </S.Links>
+        <S.PanelVisual>
+          <S.QuoteBlock>
+            <S.Quote>
+              A room without books is like a body without a soul.
+            </S.Quote>
+            <S.Author>— Cicero</S.Author>
+          </S.QuoteBlock>
+        </S.PanelVisual>
+
+        <S.PanelForm>
+          <S.Title>{title}</S.Title>
+          <S.WelcomeText>
+            Bem-vindo de volta ao seu santuário de leitura. Faça login para acessar sua coleção.
+          </S.WelcomeText>
+          <S.Form onSubmit={handleSubmit} noValidate>
+            <S.InputRow>
+              <Mail size={18} aria-hidden />
+              <Input
+                type="email"
+                name="email"
+                label="E-mail"
+                placeholder="seu@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
+                disabled={loading}
+              />
+            </S.InputRow>
+            <S.InputRow>
+              <Lock size={18} aria-hidden />
+              <Input
+                type="password"
+                name="password"
+                label="Senha"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+                disabled={loading}
+              />
+            </S.InputRow>
+            {error && <S.ErrorMessage role="alert">{error}</S.ErrorMessage>}
+            <S.SubmitButton type="submit" disabled={loading}>
+              {loading ? 'Entrando...' : submitLabel}
+              {!loading && <ArrowRight size={18} aria-hidden />}
+            </S.SubmitButton>
+          </S.Form>
+          <S.SecureAccess>
+            Acesso seguro • Gerenciado pelo seu bibliotecário local
+          </S.SecureAccess>
+          <S.Links>
+            <S.Link href={recoverPasswordHref}>{recoverPasswordLabel}</S.Link>
+            <S.Link href={signUpHref}>{signUpLabel}</S.Link>
+          </S.Links>
+        </S.PanelForm>
       </S.Card>
     </S.Wrapper>
   )

@@ -52,11 +52,40 @@ export const SectionTitle = styled.h2`
 
 export const BookGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  grid-template-columns: repeat(6, minmax(auto, max-content));
   gap: ${theme.spacing[1.5]};
+  justify-content: center;
 
   @media (max-width: ${breakpointMobile}) {
     grid-template-columns: repeat(2, 1fr);
     gap: ${theme.spacing[0.75]};
+  }
+`
+
+export const PaginationWrapper = styled.nav`
+  margin-top: ${theme.spacing[1]};
+  display: flex;
+  justify-content: center;
+  gap: ${theme.spacing[0.5]};
+  font-family: ${theme.typography.fontFamily};
+`
+
+export const PaginationButton = styled.button<{ $active?: boolean }>`
+  min-width: 2rem;
+  padding: ${theme.spacing[0.25]} ${theme.spacing[0.5]};
+  border-radius: ${theme.layout.radius.pill};
+  border: 1px solid
+    ${(props) =>
+      props.$active ? theme.colors.primary[500] : theme.colors.gray[300]};
+  background: ${(props) =>
+    props.$active ? theme.colors.primary[500] : theme.colors.background.card};
+  color: ${(props) =>
+    props.$active ? theme.colors.background.card : theme.colors.gray[800]};
+  font-size: ${theme.typography.caption.size};
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
   }
 `

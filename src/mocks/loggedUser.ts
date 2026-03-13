@@ -18,6 +18,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Robert C. Martin',
     coverImage: { src: `${IMAGES_BASE}/1003w-u76f7C6hXcQ.jpg`, alt: 'Capa Clean Code' },
     progress: 65,
+    currentPage: 130,
+    totalPages: 200,
     href: '/book/1',
   },
   {
@@ -26,6 +28,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Eric Evans',
     coverImage: { src: `${IMAGES_BASE}/1003w-ukNquKItN70.jpg`, alt: 'Capa DDD' },
     progress: 42,
+    currentPage: 120,
+    totalPages: 288,
     href: '/book/2',
   },
   {
@@ -34,6 +38,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Martin Kleppmann',
     coverImage: { src: `${IMAGES_BASE}/1003w-yQoG281PBM0.jpg`, alt: 'Capa DDIA' },
     progress: 100,
+    currentPage: 520,
+    totalPages: 520,
     href: '/book/3',
   },
   {
@@ -42,6 +48,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Martin Fowler',
     coverImage: { src: `${IMAGES_BASE}/1003w-pKsZq7ReKt4.jpg`, alt: 'Capa Refactoring' },
     progress: 28,
+    currentPage: 84,
+    totalPages: 300,
     href: '/book/4',
   },
   {
@@ -50,6 +58,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'David Thomas, Andrew Hunt',
     coverImage: { src: `${IMAGES_BASE}/1003w-h0gs-tWWJpA.jpg`, alt: 'Capa Pragmatic Programmer' },
     progress: 0,
+    currentPage: 0,
+    totalPages: 320,
     href: '/book/5',
   },
   {
@@ -58,6 +68,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Douglas Crockford',
     coverImage: { src: `${IMAGES_BASE}/1003w-fqtUYjMYkRo.jpg`, alt: 'Capa JavaScript' },
     progress: 78,
+    currentPage: 140,
+    totalPages: 180,
     href: '/book/6',
   },
   {
@@ -66,6 +78,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Thomas H. Cormen et al.',
     coverImage: { src: `${IMAGES_BASE}/1003w-RPPhtuGd-uw.jpg`, alt: 'Capa CLRS' },
     progress: 15,
+    currentPage: 150,
+    totalPages: 1000,
     href: '/book/7',
   },
   {
@@ -74,6 +88,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Harold Abelson, Gerald Jay Sussman',
     coverImage: { src: `${IMAGES_BASE}/1003w-B6Fs_5PuLPE.jpg`, alt: 'Capa SICP' },
     progress: 55,
+    currentPage: 200,
+    totalPages: 360,
     href: '/book/8',
   },
   {
@@ -82,6 +98,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Gang of Four',
     coverImage: { src: `${IMAGES_BASE}/1003w-uovFwmiNY9Y.jpg`, alt: 'Capa Design Patterns' },
     progress: 90,
+    currentPage: 360,
+    totalPages: 400,
     href: '/book/9',
   },
   {
@@ -90,6 +108,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Robert C. Martin',
     coverImage: { src: `${IMAGES_BASE}/1003w-CX3ggmnBuRE.jpg`, alt: 'Capa Clean Coder' },
     progress: 33,
+    currentPage: 80,
+    totalPages: 240,
     href: '/book/10',
   },
   {
@@ -98,6 +118,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Michael Feathers',
     coverImage: { src: `${IMAGES_BASE}/1003w-bJ768UCRqVA.jpg`, alt: 'Capa Legacy Code' },
     progress: 12,
+    currentPage: 60,
+    totalPages: 500,
     href: '/book/11',
   },
   {
@@ -106,6 +128,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Michael T. Nygard',
     coverImage: { src: `${IMAGES_BASE}/1003w-M1AG_SsXGMY.jpg`, alt: 'Capa Release It' },
     progress: 67,
+    currentPage: 180,
+    totalPages: 270,
     href: '/book/12',
   },
   {
@@ -114,6 +138,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Gene Kim et al.',
     coverImage: { src: `${IMAGES_BASE}/1003w-tJium1eKIhc.jpg`, alt: 'Capa Phoenix Project' },
     progress: 100,
+    currentPage: 320,
+    totalPages: 320,
     href: '/book/13',
   },
   {
@@ -122,6 +148,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Jez Humble, David Farley',
     coverImage: { src: `${IMAGES_BASE}/1003w-usR4-QrtuDA.jpg`, alt: 'Capa Continuous Delivery' },
     progress: 45,
+    currentPage: 180,
+    totalPages: 400,
     href: '/book/14',
   },
   {
@@ -130,6 +158,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Betsy Beyer et al.',
     coverImage: { src: `${IMAGES_BASE}/1003w-jWEUxmGoB3g.jpg`, alt: 'Capa SRE' },
     progress: 22,
+    currentPage: 110,
+    totalPages: 500,
     href: '/book/15',
   },
   {
@@ -138,6 +168,8 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Sam Newman',
     coverImage: { src: `${IMAGES_BASE}/1003w-EniB8Rzeyso.jpg`, alt: 'Capa Microservices' },
     progress: 58,
+    currentPage: 140,
+    totalPages: 240,
     href: '/book/16',
   },
   {
@@ -146,6 +178,47 @@ export const mockUserLibrary: LibraryBook[] = [
     author: 'Vaughn Vernon',
     coverImage: { src: `${IMAGES_BASE}/1003w-s3zd_KoRFmo.jpg`, alt: 'Capa IDDD' },
     progress: 8,
+    currentPage: 40,
+    totalPages: 520,
     href: '/book/17',
+  },
+  {
+    id: 'book-18',
+    title: 'Clean Architecture',
+    author: 'Robert C. Martin',
+    coverImage: {
+      src: `${IMAGES_BASE}/1003w-u76f7C6hXcQ.jpg`,
+      alt: 'Capa Clean Architecture',
+    },
+    progress: 40,
+    currentPage: 120,
+    totalPages: 300,
+    href: '/book/18',
+  },
+  {
+    id: 'book-19',
+    title: 'Patterns of Enterprise Application Architecture',
+    author: 'Martin Fowler',
+    coverImage: {
+      src: `${IMAGES_BASE}/1003w-pKsZq7ReKt4.jpg`,
+      alt: 'Capa PoEAA',
+    },
+    progress: 55,
+    currentPage: 220,
+    totalPages: 400,
+    href: '/book/19',
+  },
+  {
+    id: 'book-20',
+    title: 'Refactoring to Patterns',
+    author: 'Joshua Kerievsky',
+    coverImage: {
+      src: `${IMAGES_BASE}/1003w-uovFwmiNY9Y.jpg`,
+      alt: 'Capa Refactoring to Patterns',
+    },
+    progress: 10,
+    currentPage: 30,
+    totalPages: 300,
+    href: '/book/20',
   },
 ]

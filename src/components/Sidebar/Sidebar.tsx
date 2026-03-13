@@ -8,6 +8,7 @@ export type SidebarNavItem = {
   icon?: ReactNode
   href?: string
   isActive?: boolean
+  target?: string
 }
 
 export type SidebarProps = {
@@ -39,6 +40,7 @@ export function Sidebar({
               href={item.href}
               type={item.href ? undefined : 'button'}
               $isActive={item.isActive}
+              target={item.target}
             >
               {item.icon}
               <span>{item.label}</span>
@@ -57,6 +59,7 @@ export function Sidebar({
                   href={item.href}
                   type={item.href ? undefined : 'button'}
                   $isActive={item.isActive}
+                  target={item.target}
                 >
                   {item.icon}
                   <span>{item.label}</span>

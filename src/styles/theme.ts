@@ -74,8 +74,8 @@ export const theme = {
   components: {
     buttonHeight: '2.75rem',
     bookCover: {
-      widthDesktop: '8.75rem',
-      heightDesktop: '12.5rem',
+      widthDesktop: '10.75rem',
+      heightDesktop: '15.5rem',
       widthMobile: '7rem',
       heightMobile: '10rem',
     },

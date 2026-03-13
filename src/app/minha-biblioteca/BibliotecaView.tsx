@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import {
   Home,
   Library,
   LogOut,
   Settings,
   HelpCircle,
+  ShoppingCart,
 } from 'lucide-react'
 import { useUser } from '@/contexts/UserContext'
 import { AppIcon } from '@/contexts/IconContext'
@@ -22,6 +24,7 @@ import {
   AsideSkeleton,
 } from '@/components/Skeleton'
 import { theme } from '@/styles/theme'
+import { getJwtToken } from '../lib/auth'
 import * as S from './styles'
 
 const sidebarItems = [
@@ -37,6 +40,12 @@ const sidebarItems = [
     isActive: true,
     icon: <AppIcon icon={Library} />,
   },
+  {
+    label: 'Loja SBE',
+    href: 'https://sbeshop.com.br',
+    icon: <AppIcon icon={ShoppingCart} />,
+    target: '_blank',
+  }
 ]
 
 const sidebarBottomItems = [
@@ -74,9 +83,23 @@ const logoContent = (
 )
 
 export function BibliotecaView() {
+  const router = useRouter()
   const { user, library } = useUser()
+  const [checkingAuth, setCheckingAuth] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const ITEMS_PER_PAGE = 18
+
+  useEffect(() => {
+    const token = getJwtToken()
+    if (!token) {
+      router.replace('/')
+      return
+    }
+    setCheckingAuth(false)
+  }, [router])
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -125,6 +148,38 @@ export function BibliotecaView() {
 
   const featuredBook = library[0]
 
+  const totalPages =
+    library.length > 0 ? Math.ceil(library.length / ITEMS_PER_PAGE) : 1
+
+  const clampPage = (page: number) => {
+    if (page < 1) return 1
+    if (page > totalPages) return totalPages
+    return page
+  }
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage((prev) => {
+      const next = clampPage(page)
+      return next === prev ? prev : next
+    })
+  }
+
+  const handlePreviousPage = () => {
+    handlePageChange(currentPage - 1)
+  }
+
+  const handleNextPage = () => {
+    handlePageChange(currentPage + 1)
+  }
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
+  const endIndex = startIndex + ITEMS_PER_PAGE
+  const paginatedBooks = library.slice(startIndex, endIndex)
+
+  if (checkingAuth) {
+    return null
+  }
+
   return (
     <S.LayoutWrapper>
       {isLoading ? (
@@ -161,7 +216,7 @@ export function BibliotecaView() {
                   ? Array.from({ length: 8 }).map((_, index) => (
                       <BookCardSkeleton key={index} />
                     ))
-                  : library.map((book) => (
+                  : paginatedBooks.map((book) => (
                       <BookCard
                         key={book.id}
                         title={book.title}
@@ -169,9 +224,45 @@ export function BibliotecaView() {
                         coverImage={book.coverImage}
                         href={book.href}
                         progress={book.progress}
+                        currentPage={book.currentPage}
+                        totalPages={book.totalPages}
                       />
                     ))}
               </S.BookGrid>
+              {!isLoading && totalPages > 1 && (
+                <S.PaginationWrapper aria-label="Paginação da minha biblioteca">
+                  <S.PaginationButton
+                    type="button"
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                  >
+                    Anterior
+                  </S.PaginationButton>
+                  {Array.from({ length: totalPages }).map((_, index) => {
+                    const page = index + 1
+                    const isActive = page === currentPage
+
+                    return (
+                      <S.PaginationButton
+                        key={page}
+                        type="button"
+                        onClick={() => handlePageChange(page)}
+                        $active={isActive}
+                        aria-current={isActive ? 'page' : undefined}
+                      >
+                        {page}
+                      </S.PaginationButton>
+                    )
+                  })}
+                  <S.PaginationButton
+                    type="button"
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                  >
+                    Próximo
+                  </S.PaginationButton>
+                </S.PaginationWrapper>
+              )}
             </S.Section>
           </S.Main>
           {isLoading ? (

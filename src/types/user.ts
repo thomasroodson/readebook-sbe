@@ -1,6 +1,6 @@
 /**
  * Tipos para usuário logado e biblioteca (livros em leitura).
- * Compatível com BookCard (title, author, coverImage, progress).
+ * Compatível com BookCard (title, author, coverImage, progress, páginas).
  */
 
 export type User = {
@@ -18,4 +18,7 @@ export type LibraryBook = {
   /** Porcentagem de leitura (0–100). */
   progress: number
   href?: string
+  /** Página atual e total de páginas (opcional). */
+  currentPage?: number
+  totalPages?: number
 }

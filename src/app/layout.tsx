@@ -5,6 +5,7 @@ import { IconProvider } from '@/contexts/IconContext'
 import { UserProvider } from '@/contexts/UserContext'
 import { GlobalStyles } from '@/styles/GlobalStyles'
 import StyledComponentsRegistry from './lib/styled-registry'
+import { ApolloProviders } from './ApolloProviders'
 
 export const metadata: Metadata = {
   title: 'Dashboard SBE Shop',
@@ -24,7 +25,7 @@ export default function RootLayout({
           <GlobalStyles />
           <IconProvider>
             <UserProvider>
-              {children}
+              <ApolloProviders>{children}</ApolloProviders>
             </UserProvider>
           </IconProvider>
         </StyledComponentsRegistry>

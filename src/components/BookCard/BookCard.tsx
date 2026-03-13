@@ -12,6 +12,9 @@ export type BookCardProps = {
   href?: string
   /** Porcentagem de leitura concluída (0–100). Quando omitido, a barra de progresso não é exibida. */
   progress?: number
+  /** Texto de páginas (ex.: "130/169 págs") opcional, mostrado ao lado do progresso. */
+  currentPage?: number
+  totalPages?: number
 } & Omit<
   React.HTMLAttributes<HTMLDivElement> &
     React.AnchorHTMLAttributes<HTMLAnchorElement>,
@@ -24,11 +27,18 @@ export function BookCard({
   coverImage,
   href,
   progress,
+  currentPage,
+  totalPages,
   ...rest
 }: BookCardProps) {
   const progressClamped =
     progress !== undefined
       ? Math.min(100, Math.max(0, Number(progress)))
+      : undefined
+
+  const pagesLabel =
+    currentPage !== undefined && totalPages !== undefined
+      ? `${currentPage}/${totalPages} págs`
       : undefined
 
   return (
@@ -48,12 +58,9 @@ export function BookCard({
           aria-valuemax={100}
           aria-label={`Progresso de leitura: ${progressClamped}%`}
         >
-          <S.ProgressBarRow>
-            <S.ProgressTrack>
-              <S.ProgressFill $progress={progressClamped} />
-            </S.ProgressTrack>
+          <S.ProgressHeaderRow>
             <S.ProgressLabel aria-hidden="true">
-              {progressClamped}%
+              <span>{progressClamped}%</span>
               {progressClamped === 100 && (
                 <AppIcon
                   icon={Check}
@@ -62,6 +69,12 @@ export function BookCard({
                 />
               )}
             </S.ProgressLabel>
+            {pagesLabel && <S.ProgressPages>{pagesLabel}</S.ProgressPages>}
+          </S.ProgressHeaderRow>
+          <S.ProgressBarRow>
+            <S.ProgressTrack>
+              <S.ProgressFill $progress={progressClamped} />
+            </S.ProgressTrack>
           </S.ProgressBarRow>
         </S.ProgressWrapper>
       )}
