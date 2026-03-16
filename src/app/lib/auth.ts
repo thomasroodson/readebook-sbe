@@ -1,5 +1,8 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+import { useCallback } from 'react'
+
 const JWT_COOKIE_NAME = 'sbe_jwt'
 
 type CookieOptions = {
@@ -65,5 +68,18 @@ export function getJwtToken(): string | null {
 
 export function clearJwtToken() {
   deleteCookie(JWT_COOKIE_NAME)
+}
+
+/**
+ * Hook que retorna uma função de logout: remove o cookie sbe_jwt e redireciona
+ * para a página inicial (login). Use em botões "Sair" do Header e Sidebar.
+ * Preferir router.replace para não permitir voltar às páginas autenticadas.
+ */
+export function useLogout(): () => void {
+  const router = useRouter()
+  return useCallback(() => {
+    clearJwtToken()
+    router.replace('/')
+  }, [router])
 }
 

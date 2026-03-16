@@ -14,12 +14,12 @@ import { Header } from '@/components/Header'
 import { Sidebar } from '@/components/Sidebar'
 import { AppIcon } from '@/contexts/IconContext'
 import { useUser } from '@/contexts/UserContext'
+import { useLogout } from '@/app/lib/auth'
 import { theme } from '@/styles/theme'
 import * as LayoutS from '@/app/minha-biblioteca/styles'
 import * as S from './styles'
 
 const sidebarItems = [
-  { label: 'Início', href: '/', isActive: false, icon: <AppIcon icon={Home} /> },
   {
     label: 'Minha biblioteca',
     href: '/minha-biblioteca',
@@ -27,10 +27,10 @@ const sidebarItems = [
     icon: <AppIcon icon={Library} />,
   },
 ]
-const sidebarBottomItems = [
+const getSidebarBottomItems = (onLogout: () => void) => [
   { label: 'Configurações', href: '/configuracoes', icon: <AppIcon icon={Settings} /> },
   { label: 'Ajuda', href: '/ajuda', icon: <AppIcon icon={HelpCircle} /> },
-  { label: 'Sair', href: '/', icon: <AppIcon icon={LogOut} /> },
+  { label: 'Sair', icon: <AppIcon icon={LogOut} />, onClick: onLogout },
 ]
 const logoContent = (
   <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: 'inherit' }}>
@@ -47,6 +47,7 @@ const LOREM_PARAGRAPHS: string[] = [
 
 export default function BookPage() {
   const params = useParams<{ id: string }>()
+  const logout = useLogout()
   const { user, library } = useUser()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
@@ -81,7 +82,7 @@ export default function BookPage() {
       <Sidebar
         logo={logoContent}
         items={sidebarItems}
-        bottomItems={sidebarBottomItems}
+        bottomItems={getSidebarBottomItems(logout)}
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />
@@ -91,7 +92,7 @@ export default function BookPage() {
             avatarSrc: user.avatarUrl ?? undefined,
             avatarAlt: user.name,
             logoutLabel: 'Sair',
-            onLogout: () => {},
+            onLogout: logout,
           }}
           onMenuToggle={() => setIsSidebarOpen((o) => !o)}
         />

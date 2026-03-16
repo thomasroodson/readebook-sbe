@@ -1,5 +1,6 @@
 'use client'
 
+import { sanitizeTextInput } from '@/app/lib/sanitizeInput'
 import * as S from './styles'
 
 export type SearchProps = {
@@ -20,13 +21,15 @@ export function Search({
   ...rest
 }: SearchProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.(e.target.value)
+    const safe = sanitizeTextInput(e.target.value, { maxLength: 200 })
+    onChange?.(safe)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.currentTarget.blur()
-      onSearch?.(e.currentTarget.value)
+      const safe = sanitizeTextInput(e.currentTarget.value, { maxLength: 200 })
+      onSearch?.(safe)
     }
   }
 

@@ -11,6 +11,8 @@ import {
   ShoppingCart,
 } from 'lucide-react'
 import { useUser } from '@/contexts/UserContext'
+import { useLogout } from '@/app/lib/auth'
+import { sanitizeTextInput, sanitizeEmailInput } from '@/app/lib/sanitizeInput'
 import { AppIcon } from '@/contexts/IconContext'
 import { Header } from '@/components/Header'
 import { Sidebar } from '@/components/Sidebar'
@@ -42,7 +44,7 @@ const sidebarItems = [
   },
 ]
 
-const sidebarBottomItems = [
+const getSidebarBottomItems = (onLogout: () => void) => [
   {
     label: 'Configurações',
     href: '/configuracoes',
@@ -56,8 +58,8 @@ const sidebarBottomItems = [
   },
   {
     label: 'Sair',
-    href: '/',
     icon: <AppIcon icon={LogOut} />,
+    onClick: onLogout,
   },
 ]
 
@@ -78,9 +80,12 @@ const logoContent = (
 )
 
 export function SettingsView() {
+  const logout = useLogout()
   const { user } = useUser()
   const [isLoading, setIsLoading] = useState(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [fullName, setFullName] = useState(user.name)
+  const [email, setEmail] = useState(user.email)
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -89,6 +94,11 @@ export function SettingsView() {
 
     return () => clearTimeout(timeoutId)
   }, [])
+
+  useEffect(() => {
+    setFullName(user.name)
+    setEmail(user.email)
+  }, [user.name, user.email])
 
   // Em desktop, o sidebar sempre deve estar aberto
   useEffect(() => {
@@ -140,7 +150,7 @@ export function SettingsView() {
         <Sidebar
           logo={logoContent}
           items={sidebarItems}
-          bottomItems={sidebarBottomItems}
+          bottomItems={getSidebarBottomItems(logout)}
           isOpen={isSidebarOpen}
           onClose={handleSidebarClose}
         />
@@ -154,7 +164,7 @@ export function SettingsView() {
               avatarSrc: user.avatarUrl ?? undefined,
               avatarAlt: user.name,
               logoutLabel: 'Sair',
-              onLogout: () => {},
+              onLogout: logout,
             }}
             onMenuToggle={handleMenuToggle}
           />
@@ -207,7 +217,12 @@ export function SettingsView() {
                     <S.TextInput
                       type="text"
                       name="fullName"
-                      defaultValue={user.name}
+                      value={fullName}
+                      onChange={(e) =>
+                        setFullName(
+                          sanitizeTextInput(e.target.value, { maxLength: 200 })
+                        )
+                      }
                     />
                   </S.FieldGroup>
                   <S.FieldGroup>
@@ -215,7 +230,10 @@ export function SettingsView() {
                     <S.TextInput
                       type="email"
                       name="email"
-                      defaultValue={user.email}
+                      value={email}
+                      onChange={(e) =>
+                        setEmail(sanitizeEmailInput(e.target.value))
+                      }
                     />
                   </S.FieldGroup>
                 </S.FormGrid>

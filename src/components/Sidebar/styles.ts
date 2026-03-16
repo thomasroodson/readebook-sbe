@@ -51,7 +51,7 @@ export const Wrapper = styled.nav<{ $isOpen?: boolean }>`
 `
 
 export const LogoContainer = styled.div`
-  margin-bottom: ${theme.spacing[1.5]};
+  margin-bottom: ${theme.spacing[3]};
 `
 
 export const NavList = styled.ul`

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, type FormEvent } from 'react'
+import { sanitizeEmailInput } from '@/app/lib/sanitizeInput'
 import { Input } from '@/components/Input'
 import { Button } from '@/components/Button'
 import * as S from './styles'
@@ -69,7 +70,7 @@ export function RecoverPassword({
             label="E-mail"
             placeholder="seu@email.com"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(sanitizeEmailInput(e.target.value))}
             autoComplete="email"
             disabled={loading}
           />

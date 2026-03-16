@@ -1,9 +1,15 @@
-import { clearJwtToken, getJwtToken, setJwtToken } from './auth'
+import { renderHook, act } from '@testing-library/react'
+import { clearJwtToken, getJwtToken, setJwtToken, useLogout } from './auth'
+
+const mockReplace = jest.fn()
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ replace: mockReplace }),
+}))
 
 describe('auth cookie helpers', () => {
   beforeEach(() => {
-    // Reset cookies before each test
     document.cookie = ''
+    mockReplace.mockClear()
   })
 
   it('deve salvar e ler o JWT do cookie', () => {
@@ -23,6 +29,25 @@ describe('auth cookie helpers', () => {
 
     const stored = getJwtToken()
     expect(stored).toBeNull()
+  })
+})
+
+describe('useLogout', () => {
+  beforeEach(() => {
+    document.cookie = ''
+    mockReplace.mockClear()
+  })
+
+  it('retorna função que limpa o cookie e redireciona para /', () => {
+    setJwtToken('token-antes-do-logout')
+    const { result } = renderHook(() => useLogout())
+
+    act(() => {
+      result.current()
+    })
+
+    expect(getJwtToken()).toBeNull()
+    expect(mockReplace).toHaveBeenCalledWith('/')
   })
 })
 

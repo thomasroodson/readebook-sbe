@@ -1,20 +1,19 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import {
-  Home,
   Library,
   LogOut,
   Settings,
   HelpCircle,
   ShoppingCart,
+  BookOpen,
 } from 'lucide-react'
 import { useUser } from '@/contexts/UserContext'
 import { AppIcon } from '@/contexts/IconContext'
 import { Header } from '@/components/Header'
-import { Sidebar } from '@/components/Sidebar'
+import { Sidebar, type SidebarNavItem } from '@/components/Sidebar'
 import { Aside } from '@/components/Aside'
 import { BookCard } from '@/components/BookCard'
 import {
@@ -24,16 +23,11 @@ import {
   AsideSkeleton,
 } from '@/components/Skeleton'
 import { theme } from '@/styles/theme'
-import { getJwtToken } from '../lib/auth'
+import { useLogout } from '../lib/auth'
+import { filterLibraryByTerm } from '../lib/filterLibraryByTerm'
 import * as S from './styles'
 
 const sidebarItems = [
-  {
-    label: 'Início',
-    href: '/',
-    isActive: false,
-    icon: <AppIcon icon={Home} />,
-  },
   {
     label: 'Minha biblioteca',
     href: '/minha-biblioteca',
@@ -48,7 +42,7 @@ const sidebarItems = [
   }
 ]
 
-const sidebarBottomItems = [
+const getSidebarBottomItems = (onLogout: () => void): SidebarNavItem[] => [
   {
     label: 'Configurações',
     href: '/configuracoes',
@@ -61,8 +55,8 @@ const sidebarBottomItems = [
   },
   {
     label: 'Sair',
-    href: '/',
     icon: <AppIcon icon={LogOut} />,
+    onClick: onLogout,
   },
 ]
 
@@ -77,29 +71,24 @@ const logoContent = (
       color: 'inherit',
     }}
   >
-    <Home size={20} aria-hidden />
-    <strong>BookBase</strong>
+    <BookOpen size={20} aria-hidden />
+    <strong>SBE Library</strong>
   </Link>
 )
 
 export function BibliotecaView() {
-  const router = useRouter()
+  const logout = useLogout()
   const { user, library } = useUser()
-  const [checkingAuth, setCheckingAuth] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
+  const [searchTerm, setSearchTerm] = useState('')
 
   const ITEMS_PER_PAGE = 18
-
-  useEffect(() => {
-    const token = getJwtToken()
-    if (!token) {
-      router.replace('/')
-      return
-    }
-    setCheckingAuth(false)
-  }, [router])
+  const filteredLibrary = useMemo(
+    () => filterLibraryByTerm(library, searchTerm),
+    [library, searchTerm]
+  )
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -146,10 +135,16 @@ export function BibliotecaView() {
     setIsSidebarOpen(false)
   }
 
-  const featuredBook = library[0]
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm])
+
+  const featuredBook = filteredLibrary[0]
 
   const totalPages =
-    library.length > 0 ? Math.ceil(library.length / ITEMS_PER_PAGE) : 1
+    filteredLibrary.length > 0
+      ? Math.ceil(filteredLibrary.length / ITEMS_PER_PAGE)
+      : 1
 
   const clampPage = (page: number) => {
     if (page < 1) return 1
@@ -174,11 +169,7 @@ export function BibliotecaView() {
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
   const endIndex = startIndex + ITEMS_PER_PAGE
-  const paginatedBooks = library.slice(startIndex, endIndex)
-
-  if (checkingAuth) {
-    return null
-  }
+  const paginatedBooks = filteredLibrary.slice(startIndex, endIndex)
 
   return (
     <S.LayoutWrapper>
@@ -188,7 +179,7 @@ export function BibliotecaView() {
         <Sidebar
           logo={logoContent}
           items={sidebarItems}
-          bottomItems={sidebarBottomItems}
+          bottomItems={getSidebarBottomItems(logout)}
           isOpen={isSidebarOpen}
           onClose={handleSidebarClose}
         />
@@ -202,7 +193,12 @@ export function BibliotecaView() {
               avatarSrc: user.avatarUrl ?? undefined,
               avatarAlt: user.name,
               logoutLabel: 'Sair',
-              onLogout: () => {},
+              onLogout: logout,
+            }}
+            searchProps={{
+              value: searchTerm,
+              onChange: setSearchTerm,
+              placeholder: 'Buscar livros...',
             }}
             onMenuToggle={handleMenuToggle}
           />

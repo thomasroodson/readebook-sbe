@@ -1,7 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useUser } from '@/contexts/UserContext'
+import { useLogout } from '@/app/lib/auth'
+import { filterLibraryByTerm } from '@/app/lib/filterLibraryByTerm'
 import { Header } from '@/components/Header'
 import { BookCard } from '@/components/BookCard'
 import {
@@ -11,8 +13,15 @@ import {
 import * as S from './styles'
 
 export function LoggedInView() {
+  const logout = useLogout()
   const { user, library } = useUser()
   const [isLoading, setIsLoading] = useState(true)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const filteredLibrary = useMemo(
+    () => filterLibraryByTerm(library, searchTerm),
+    [library, searchTerm]
+  )
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -32,7 +41,12 @@ export function LoggedInView() {
             avatarSrc: user.avatarUrl ?? undefined,
             avatarAlt: user.name,
             logoutLabel: 'Sair',
-            onLogout: () => {},
+            onLogout: logout,
+          }}
+          searchProps={{
+            value: searchTerm,
+            onChange: setSearchTerm,
+            placeholder: 'Buscar livros...',
           }}
         />
       )}
@@ -44,7 +58,7 @@ export function LoggedInView() {
               ? Array.from({ length: 8 }).map((_, index) => (
                   <BookCardSkeleton key={index} />
                 ))
-              : library.map((book) => (
+              : filteredLibrary.map((book) => (
                   <BookCard
                     key={book.id}
                     title={book.title}

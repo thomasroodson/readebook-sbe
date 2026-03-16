@@ -9,6 +9,8 @@ export type SidebarNavItem = {
   href?: string
   isActive?: boolean
   target?: string
+  /** Quando definido, o item é renderizado como botão e chama onClick (ex.: logout) */
+  onClick?: () => void
 }
 
 export type SidebarProps = {
@@ -41,6 +43,7 @@ export function Sidebar({
               type={item.href ? undefined : 'button'}
               $isActive={item.isActive}
               target={item.target}
+              onClick={item.onClick}
             >
               {item.icon}
               <span>{item.label}</span>
@@ -60,6 +63,7 @@ export function Sidebar({
                   type={item.href ? undefined : 'button'}
                   $isActive={item.isActive}
                   target={item.target}
+                  onClick={item.onClick}
                 >
                   {item.icon}
                   <span>{item.label}</span>
